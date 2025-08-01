@@ -16,7 +16,7 @@ class Solution {
     ListNode fast=dummy,slow=dummy;
 
     int i;
-    for (i=0;fast.next!=null;i++)//Get the total length 
+    for (i=0;fast.next!=null;i++) 
     	fast=fast.next;
     
     for (int j=i-n%i;j>0;j--) 
