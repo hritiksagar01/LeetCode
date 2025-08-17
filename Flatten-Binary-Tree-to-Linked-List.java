@@ -8,10 +8,10 @@
  *     TreeNode(int val) { this.val = val; }
  *     TreeNode(int val, TreeNode left, TreeNode right) {
  *         this.val = val;
- *         this.left = left;
+ *         this.fleft = left;
  *         this.right = right;
  *     }
- * }
+ * 
  */
 class Solution {
   public void flatten(TreeNode root) {
@@ -26,5 +26,5 @@ class Solution {
 		}
 		cur = cur.right;
 	}
-}
+  }
 }
