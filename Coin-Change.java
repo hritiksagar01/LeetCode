@@ -1,19 +1,43 @@
+import java.util.Arrays;
+
 class Solution {
-     	public int coinChange(int[] coins, int amount) {
-        Map<Integer,Integer> map=new HashMap<>();
-        return coinChange(coins,amount,map);
+    public int coinChange(int[] coins, int amount) {
+        // memo[i] will store the min coins for amount i.
+        // Initialize with a value to indicate not yet computed.
+        int[] memo = new int[amount + 1];
+        // We use a value like -2 to distinguish from computed values (0, positive ints, or -1 for impossible)
+        Arrays.fill(memo, -2); 
+        
+        int result = findMinCoins(coins, amount, memo);
+        return result == Integer.MAX_VALUE ? -1 : result;
     }
-    private int coinChange(int[] coins, int amount, Map<Integer,Integer> mem ){
-        if(amount<0) return -1;
-        if(amount==0) return 0;
-        Integer c=mem.get(amount);
-        if(c!=null) return c;
-        int cc=-1;
-        for(int i=0;i<coins.length;i++) {
-            int coin=coinChange(coins, amount-coins[i],mem);
-            if(coin>=0) cc=cc<0?coin+1:Math.min(cc,coin+1);
+    
+    private int findMinCoins(int[] coins, int amount, int[] memo) {
+        // Base case: Amount is negative, impossible path.
+        if (amount < 0) {
+            return Integer.MAX_VALUE;
         }
-        mem.put(amount,cc);
-        return cc;
+        // Base case: Amount is zero, 0 coins needed.
+        if (amount == 0) {
+            return 0;
+        }
+        // If we have already computed this subproblem, return the stored result.
+        if (memo[amount] != -2) {
+            return memo[amount];
+        }
+        
+        int minCount = Integer.MAX_VALUE;
+        
+        for (int coin : coins) {
+            int result = findMinCoins(coins, amount - coin, memo);
+            
+            if (result != Integer.MAX_VALUE) {
+                minCount = Math.min(minCount, 1 + result);
+            }
+        }
+        
+        // Store the computed result in the memoization table before returning.
+        memo[amount] = minCount;
+        return minCount;
     }
 }
